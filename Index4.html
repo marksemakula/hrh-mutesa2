@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabaka Mutesa II Museum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Added favicon link -->
+    <link rel="icon" href="./images/Buganda.ico" type="image/x-icon">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --text: #2c3e50;
+            --gold: #f1c40f;
+            --uganda-yellow: #FCDC04;
+            --uganda-red: #D90000;
+            --uganda-black: #000000;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--text);
+            overflow-x: hidden;
+            transition: background-color 0.5s;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Buganda flag styling */
+        .logo-flag {
+            height: 1.5rem; /* Match the font size of the logo */
+            width: auto; /* Maintain aspect ratio */
+            max-width: 2.5rem; /* Prevent excessive width */
+            display: block;
+            object-fit: contain;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--secondary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 90px;
+            padding-bottom: 60px;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Home Page with Carousel */
+        #home {
+            position: relative;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 150px;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .hero-carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7));
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            font-size: 1.1rem;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .uganda-flag {
+            display: inline-flex;
+            height: 24px;
+            width: 36px;
+            margin: 0 10px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            vertical-align: middle;
+        }
+        
+        .flag-black { background: var(--uganda-black); flex: 1; }
+        .flag-yellow { background: var(--uganda-yellow); flex: 1; }
+        .flag-red { background: var(--uganda-red); flex: 1; }
+
+        /* Featured Exhibits */
+        .featured-exhibits {
+            background-color: white;
+            padding: 80px 0;
+        }
+
+        .exhibits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .exhibit-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .exhibit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .exhibit-img {
+            height: 250px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .exhibit-content {
+            padding: 20px;
+        }
+
+        .exhibit-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .exhibit-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--gold);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-content h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: var(--uganda-yellow);
+            border: 4px solid var(--uganda-red);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            right: -12px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            left: -12px;
+        }
+
+        /* Collections */
+        #collections {
+            background-color: #f0f2f5;
+            padding: 80px 0;
+        }
+
+        .category-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .category-btn {
+            background-color: white;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            height: 280px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Video play button */
+        .video-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .video-play-button {
+            opacity: 1;
+        }
+
+        /* Video modal */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80vh;
+        }
+
+        .video-modal-content video {
+            width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* About Page */
+        #about {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            margin-top: 40px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: #555;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .about-image img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .member-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 5px solid var(--light);
+        }
+
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .footer-column p, .footer-column a {
+            color: #bbb;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item::after {
+                left: 18px;
+            }
+            
+            .timeline-item:nth-child(odd)::after,
+            .timeline-item:nth-child(even)::after {
+                left: 18px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: var(--primary);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .video-modal-content {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <!-- Replaced crown icon with Buganda flag image -->
+                <img src="./images/Buganda.jpeg" alt="Buganda Flag" class="logo-flag">
+                <span>Kabaka MutesaII</span>
+            </div>
+            <nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                    <li><a href="#" class="nav-link" data-page="collections">Collections</a></li>
+                    <!-- Fixed Timeline and Legacy links -->
+                    <li><a href="#" class="nav-link" data-page="timeline">Timeline</a></li>
+                    <li><a href="#" class="nav-link" data-page="legacy">Legacy</a></li>
+                    <li><a href="#" class="nav-link" data-page="research">Research</a></li>
+                    <li><a href="#" class="nav-link" data-page="visit">Visit</a></li>
+                    <li><a href="#" class="nav-link" data-page="support">Support</a></li>
+                    <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Sections -->
+    <main>
+        <!-- Home Page with Carousel -->
+        <section id="home" class="page active">
+            <!-- Carousel Container -->
+            <div class="hero-carousel">
+                <!-- Slides will be added dynamically by JavaScript -->
+                <div class="hero-overlay"></div>
+            </div>
+            
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Kabaka EDWARD MUTESA II (Maj. General)</h1>
+                    <p>A Digital Memior of the KING, Uganda's Historic 1st Post Independance Leader</p>
+                    <div class="hero-btns">
+                        <a href="#" class="btn start-tour">Explore the Kingdom</a>
+                        <a href="#" class="btn btn-secondary" data-page="timeline">Discover History</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Kabaka Mutesa II Digital Museum</h2>
+                    <p>The 35th Kabaka of Buganda & 1st Post Independence Leader of Uganda</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Here's a few facts;</h3>
+                        <p>Sir Edward Frederick William David Walugembe Mutebi Luwangula Mutesa II (1924-1969) was the 35th Kabaka of the Kingdom of Buganda in Uganda. He reigned from 1939 until his death in 1969, playing a crucial role during Uganda's transition to independence.</p>
+                        <p>Kabaka Mutesa II was educated at King's College Budo and later at Magdalene College, Cambridge. His reign witnessed significant political transformations including Uganda's independence from British colonial rule in 1962.</p>
+                        <p>As the first President of Uganda (1963-1966), he worked to balance traditional authority with modern governance. His legacy continues to shape Ugandan politics and cultural identity.</p>
+                        <p>He was the first African captain of the Cambridge rifle team</p>
+                        <p>Avid Jazz Enthusiast & Band Leader: Mutesa II had a deep love for jazz music. He formed his own band, "The Mutesa II Band", which regularly performed at parties and gatherings at the Lubiri Palace. He was known to play the trumpet himself and actively encouraged modern music in Buganda.</p>
+                        <p>"Mailo" Became a Symbolic Greeting: During the crisis surrounding his 1953 exile and the subsequent campaign for his return, the Baganda popularized the greeting "Mailo" (meaning "mile" but also a reference to the traditional land tenure system). It became a covert way to express solidarity and loyalty to the Kabaka without directly provoking colonial authorities.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="./images/Mutesa2.jpg" alt="Kabaka Mutesa II">
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <h2>Our Team</h2>
+                    <p>Experts in history and technology</p>
+                </div>
+                
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./images/Pauline.jpg" alt="Pauline Nakalyango">
+                        </div>
+                        <h3>Pauline Nakalyango</h3>
+                        <p>Co-Founder & Operations Lead</p>
+                        <p>paulinenakalyango142@gmail.com</p>
+                        <p>+256 757 733820</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./images/Edrine.jpg" alt="Edrine Bwanika">
+                        </div>
+                        <h3>Edrine Bwanika</h3>
+                        <p>Co-Founder & Curator</p>
+                        <p>bwanikaedrine@gmail.com</p>
+                        <p>+256 756 796571</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="./images/Andrea.png" alt="Dr. Nantongo Andrea">
+                        </div>
+                        <h3>Andrea Nantongo, MD</h3>
+                        <p>CTO</p>
+                        <p>Medical Doctor & Software Developer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collections Page -->
+        <section id="collections" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Royal Collections</h2>
+                    <p>Artifacts and treasures of Kabaka Mutesa II</p>
+                </div>
+                
+                <div class="category-nav">
+                    <button class="category-btn active">All Collections</button>
+                    <button class="category-btn">Personal Items</button>
+                    <button class="category-btn">Royal Regalia</button>
+                    <button class="category-btn">Documents</button>
+                    <button class="category-btn">Photographs</button>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="./images/untitled folder/mutesa23.jpg" alt="Royal Army Uniform">
+                        <div class="gallery-overlay">
+                            <h3>Royal Army Service</h3>
+                            <p>Symbol of Kabaka's authority</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/mutesa13.jpeg" alt="Coronation Robes">
+                        <div class="gallery-overlay">
+                            <h3>Coronation Robes</h3>
+                            <p>Worn during 1942 coronation</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/mutesa32.jpeg" alt="Personal Diary">
+                        <div class="gallery-overlay">
+                            <h3>Personal Diary</h3>
+                            <p>Cambridge years (1945-1948)</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="./images/mutesa3.jpg" alt="Politics">
+                        <div class="gallery-overlay">
+                            <h3>Politics</h3>
+                            <p>1963 Political Concession</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Video items with poster previews -->
+                    <div class="gallery-item">
+                        <video muted playsinline poster="./images/video-poster1.jpg">
+                            <source src="./images/HISTORY 1.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3>Historical Footage</h3>
+                            <p>Kabaka Mutesa II in London</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <video muted playsinline poster="./images/video-poster2.jpg">
+                            <source src="./images/SEVEN.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3>Royal Ceremony</h3>
+                            <p>Traditional Buganda celebration</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="./images/mutesa7.jpg" alt="Buganda Agreement 1900">
+                        <div class="gallery-overlay">
+                            <h3>Buganda Agreement</h3>
+                            <p>1955 agreement with Britain</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="./images/mutesa11.jpeg" alt="Royal Wedding">
+                        <div class="gallery-overlay">
+                            <h3>Royal Wedding</h3>
+                            <p>Traditional court Wedding</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="./images/mutesa12.jpeg" alt="On visits to the UK">
+                        <div class="gallery-overlay">
+                            <h3>On visits to the UK</h3>
+                            <p>Royal engagements and diplomacy</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="./images/mutesa16.png" alt="Statesman">
+                        <div class="gallery-overlay">
+                            <h3>Statesman</h3>
+                            <p>Attempts at National Cohession</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <video muted playsinline poster="./images/video-poster1.jpg">
+                            <source src="./images/SIX.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-play-button">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div class="gallery-overlay">
+                            <h3>Historical Footage</h3>
+                            <p>Kabaka Mutesa II</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="./images/untitled folder/mutesa21.png" alt="Country Tour">
+                        <div class="gallery-overlay">
+                            <h3>Country-Tour</h3>
+                            <p>Country Tour</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Modal -->
+        <div class="video-modal">
+            <div class="video-modal-content">
+                <video controls>
+                    <source src="" type="video/mp4">
+                </video>
+                <div class="close-modal">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Page -->
+        <section id="timeline" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Historical Timeline</h2>
+                    <p>The life and reign of Kabaka Mutesa II</p>
+                </div>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>November 19, 1924</h3>
+                            <p>Born at the Lubiri Palace in Mengo, Kampala to Kabaka Sir Daudi Chwa II and Lady Irene Drusilla Namaganda</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1939</h3>
+                            <p>Became Kabaka of Buganda at age 15 following the death of his father</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1945-1948</h3>
+                            <p>Studied at Magdalene College, Cambridge University in England</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1953</h3>
+                            <p>Exiled to London by British Governor Andrew Cohen over constitutional disagreements</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1955</h3>
+                            <p>Returned to Buganda as Kabaka following negotiations</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1962</h3>
+                            <p>Uganda gained independence from Britain</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1963-1966</h3>
+                            <p>Served as the first President of Uganda</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1966</h3>
+                            <p>Exiled to Britain after the Mengo Palace attack by Milton Obote's forces</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>November 21, 1969</h3>
+                            <p>Died in London under mysterious circumstances</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>1971</h3>
+                            <p>His remains were returned to Uganda for a royal burial at Kasubi Tombs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legacy Page -->
+        <section id="legacy" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Enduring Legacy</h2>
+                    <p>Kabaka Mutesa II's impact on modern Uganda</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="./images/mutesaLegacycollage.png" alt="Buganda Kingdom">
+                    </div>
+                    <div class="about-text">
+                        <h3>Political Influence</h3>
+                        <p>Kabaka Mutesa II played a pivotal role in Uganda's transition to independence. As both Kabaka of Buganda and first President of Uganda, he navigated complex relationships between traditional kingdoms and the new nation-state.</p>
+                        <p>His book "Desecration of My Kingdom" details his perspective on the political turmoil that led to his exile.</p>
+                        
+                        <h3>Cultural Preservation</h3>
+                        <p>Mutesa II was a strong advocate for preserving Buganda's cultural heritage. During his reign, he:</p>
+                        <ul style="padding-left: 20px; margin-bottom: 20px;">
+                            <li>Revived traditional ceremonies and rituals</li>
+                            <li>Supported the documentation of oral histories</li>
+                            <li>Promoted the teaching of Luganda language</li>
+                            <li>Preserved royal sites including Kasubi Tombs</li>
+                        </ul>
+                        
+                        <h3>Modern Relevance</h3>
+                        <p>Today, Kabaka Mutesa II is remembered as a symbol of Buganda pride and Ugandan nationalism. His legacy continues through:</p>
+                        <ul style="padding-left: 20px;">
+                            <li>The annual Kabaka Birthday Run supporting health initiatives</li>
+                            <li>Educational scholarships in his name</li>
+                            <li>The Mutesa II Royal University</li>
+                            <li>Ongoing cultural preservation efforts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Pages -->
+        <section id="research" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Research & Scholarship</h2>
+                    <p>Academic resources on Kabaka Mutesa II</p>
+                </div>
+                <div class="about-text">
+                    <p>Our digital archive contains over 5,000 documents, photographs, and recordings related to Kabaka Mutesa II and his era. Researchers can access:</p>
+                    <ul style="padding-left: 20px; margin: 20px 0;">
+                        <li>Original correspondence between Kabaka and colonial officials</li>
+                        <li>Historical newspapers from the independence period</li>
+                        <li>Oral history interviews with contemporaries</li>
+                        <li>Academic papers on Buganda history</li>
+                        <li>Digitized books from the royal collection</li>
+                    </ul>
+                    <p>Contact our research department for access to special collections and research assistance.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="visit" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Plan Your Visit</h2>
+                    <p>Virtual and physical museum experiences</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Virtual Tour</h3>
+                        <p>Experience our digital museum from anywhere in the world:</p>
+                        <ul style="padding-left: 20px; margin-bottom: 20px;">
+                            <li>360° virtual tours of historical sites</li>
+                            <li>Interactive timelines and exhibits</li>
+                            <li>Digital artifact collections</li>
+                            <li>Educational resources for students</li>
+                        </ul>
+                        
+                        <h3>Physical Location</h3>
+                        <p>Visit our museum center in Kampala:</p>
+                        <p><strong>Mengo Palace Complex</strong><br>
+                        Hill Road, Mengo<br>
+                        Kampala, Uganda</p>
+                        <p>Open Monday-Saturday: 9am-5pm</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="./images/Mutesa2collage1.png" alt="Museum Interior">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="support" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Support Our Mission</h2>
+                    <p>Help preserve Uganda's royal heritage</p>
+                </div>
+                <div class="about-text">
+                    <p>As a non-profit institution, we rely on donations to continue our work preserving and sharing the legacy of Kabaka Mutesa II. Your support helps us:</p>
+                    <ul style="padding-left: 20px; margin: 20px 0;">
+                        <li>Digitize historical documents and artifacts</li>
+                        <li>Develop educational programs for schools</li>
+                        <li>Maintain our digital platforms</li>
+                        <li>Conduct oral history interviews</li>
+                        <li>Create new exhibitions</li>
+                    </ul>
+                    <a href="#" class="btn">Make a Donation</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>Get in touch with our team</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Project Directors</h3>
+                        <p><strong>Pauline Nakalyango</strong><br>
+                        Email: paulinenakalyango142@gmail.com<br>
+                        Phone: +256 757 733820</p>
+                        
+                        <p><strong>Edrine Bwanika</strong><br>
+                        Email: bwanikaedrine@gmail.com</p>
+                        
+                        <h3>General Inquiries</h3>
+                        <p>Email: info@kabakamutesamuseum.org<br>
+                        Phone: +256 414 123 456</p>
+                        
+                        <h3>Research Department</h3>
+                        <p>Email: research@kabakamutesamuseum.org</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="./images/Mutesa2collage2.png" alt="Contact Us">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Kabaka Mutesa II Museum</h3>
+                    <p>Preserving and sharing the legacy of Uganda's visionary king through innovative digital experiences.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <a href="#" data-page="home">Home</a>
+                    <a href="#" data-page="about">About Kabaka</a>
+                    <a href="#" data-page="collections">Collections</a>
+                    <a href="#" data-page="timeline">Timeline</a>
+                    <a href="#" data-page="legacy">Legacy</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <a href="#" data-page="research">Research Materials</a>
+                    <a href="#" data-page="visit">Virtual Tours</a>
+                    <a href="#">Educational Programs</a>
+                    <a href="#">Publications</a>
+                    <a href="#">Digital Archives</a>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Information</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Mengo Palace, Kampala, Uganda</p>
+                    <p><i class="fas fa-phone"></i> +256 757 733820</p>
+                    <p><i class="fas fa-envelope"></i> info@kabakamutesamuseum.org</p>
+                    <p><i class="fas fa-clock"></i> Open 24/7 Online</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Kabaka Mutesa II Museum. All rights reserved. | Project by Pauline Nakalyango & Edrine Bwanika</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('nav ul');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('show');
+            });
+            
+            // Page navigation
+            const navLinks = document.querySelectorAll('.nav-link, .footer-column a, .btn-secondary');
+            const pages = document.querySelectorAll('.page');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get target page from data attribute
+                    const targetPage = this.getAttribute('data-page');
+                    
+                    // Hide all pages
+                    pages.forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    
+                    // Show target page
+                    document.getElementById(targetPage).classList.add('active');
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(navLink => {
+                        navLink.classList.remove('active');
+                    });
+                    
+                    // If it's a nav link, set it as active
+                    if (this.classList.contains('nav-link')) {
+                        this.classList.add('active');
+                    } else {
+                        // Find corresponding nav link and activate it
+                        const correspondingNav = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
+                        if (correspondingNav) {
+                            correspondingNav.classList.add('active');
+                        }
+                    }
+                    
+                    // Close mobile menu if open
+                    navMenu.classList.remove('show');
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Exhibit card interaction
+            const exhibitCards = document.querySelectorAll('.exhibit-card');
+            exhibitCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // In a real implementation, this would open the exhibit detail
+                    alert('Exhibit details would open here in a complete implementation.');
+                });
+            });
+            
+            // Category buttons
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real implementation, this would filter the gallery
+                });
+            });
+            
+            // Hero Section Carousel
+            const heroCarousel = document.querySelector('.hero-carousel');
+            const images = [
+                './images/Mutesa2collage1.png',
+                './images/Mutesa2collage2.png',
+                './images/Mutesa2collage1.png',
+                './images/Mutesa2collage2.png',
+                './images/Mutesa2collage1.png',
+                './images/Mutesa2collage2.png'
+            ];
+            
+            // Create slides
+            images.forEach((img, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.style.backgroundImage = `url('${img}')`;
+                if(index === 0) slide.classList.add('active');
+                heroCarousel.insertBefore(slide, heroCarousel.firstChild);
+            });
+            
+            // Rotate slides
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.carousel-slide');
+            
+            function rotateSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            // Start the carousel
+            setInterval(rotateSlide, 5000);
+            
+            // Video functionality
+            const videoPlayButtons = document.querySelectorAll('.video-play-button');
+            const videoModal = document.querySelector('.video-modal');
+            const modalVideo = document.querySelector('.video-modal video');
+            const closeModal = document.querySelector('.close-modal');
+            
+            videoPlayButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const video = this.previousElementSibling;
+                    const videoSrc = video.querySelector('source').src;
+                    
+                    // Set the modal video source
+                    modalVideo.querySelector('source').src = videoSrc;
+                    modalVideo.load();
+                    
+                    // Show the modal
+                    videoModal.classList.add('active');
+                    
+                    // Play the video
+                    modalVideo.play();
+                });
+            });
+            
+            // Close modal functionality
+            closeModal.addEventListener('click', function() {
+                videoModal.classList.remove('active');
+                modalVideo.pause();
+            });
+            
+            // Close modal when clicking outside
+            videoModal.addEventListener('click', function(e) {
+                if (e.target === videoModal) {
+                    videoModal.classList.remove('active');
+                    modalVideo.pause();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
